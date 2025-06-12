@@ -81,7 +81,6 @@ A Neuroflux não precisa de aumento no número de neurônios ao longo do tempo. 
   <img src="https://github.com/user-attachments/assets/4cc5c789-ea5b-44fb-bcb2-8552d93c9e9e" width="700"/>
 </div>
 
-
 ---
 
 ## Memória de Curto Prazo com Chunk Loading
