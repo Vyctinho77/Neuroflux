@@ -93,6 +93,7 @@ Inspirado no conceito de "chunk loading" em jogos, o sistema de memória da Neur
 <div align="center">
   <img src="https://github.com/user-attachments/assets/e3327124-c7d0-46ba-a94c-8844fca788c0" width="700"/>
 </div>
+
 ---
 
 ## Aplicações e Casos Testados
