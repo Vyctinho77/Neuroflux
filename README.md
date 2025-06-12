@@ -57,16 +57,16 @@ harmonico = np.tanh(deltas) + relu(deltas) * 0.5
 ### 2. **Instabilidade por Oscilação**
 Mede a diferença de variação entre épocas:
 
-\[
-I(t) = \frac{1}{n} \sum_{i=1}^n |\Delta w_i(t) - \Delta w_i(t-1)|
-\]
+```
+I(t) = (1/n) * Σ |Δw_i(t) - Δw_i(t-1)|
+```
 
 ### 3. **Taxa de Aprendizado Responsiva**
 Ajuste contínuo com base na instabilidade:
 
-\[
-\eta(t) = \eta_{base} \cdot e^{-\alpha \cdot I(t)}
-\]
+```
+η(t) = η_base * exp(-α * I(t))
+```
 
 ---
 
