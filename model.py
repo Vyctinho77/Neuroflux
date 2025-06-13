@@ -32,10 +32,10 @@ class Down(nn.Module):
 
 class Up(nn.Module):
     """Aumento de escala e conversão dupla."""
-    def __init__(self, in_ch, out_ch):
+    def __init__(self, in_ch_from_up, in_ch_from_skip, out_ch):
         super().__init__()
-        self.up = nn.ConvTranspose2d(in_ch, out_ch, kernel_size=2, stride=2)
-        self.conv = DoubleConv(in_ch, out_ch)
+        self.up = nn.ConvTranspose2d(in_ch_from_up, out_ch, kernel_size=2, stride=2)
+        self.conv = DoubleConv(out_ch + in_ch_from_skip, out_ch)
 
     def forward(self, x1, x2):
         x1 = self.up(x1)
@@ -55,10 +55,10 @@ class UNet(nn.Module):
         self.down2 = Down(128, 256)
         self.down3 = Down(256, 512)
         self.down4 = Down(512, 512)
-        self.up1 = Up(512, 256)
-        self.up2 = Up(256, 128)
-        self.up3 = Up(128, 64)
-        self.up4 = Up(64, 64)
+        self.up1 = Up(512, 512, 256)
+        self.up2 = Up(256, 256, 128)
+        self.up3 = Up(128, 128, 64)
+        self.up4 = Up(64, 64, 64)
         self.outc = nn.Conv2d(64, n_classes, kernel_size=1)
 
         # Para ganchos Grad-CAM
