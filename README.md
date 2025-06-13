@@ -146,3 +146,20 @@ Projeto criado por **Vyctor**, 2025.
 ---
 
 > Em caso de dúvidas, sugestões ou interesse em colaboração, fique à vontade para abrir uma issue ou enviar uma mensagem!
+
+---
+
+## Segmentação de Glioblastoma com U-Net
+
+Este repositório inclui uma U-Net multimodal com Grad-CAM para segmentação de GBM.
+Para treinar no Google Colab com GPU basta executar:
+
+```python
+!git clone https://github.com/seu-usuario/Neuroflux.git
+%cd Neurofluxo
+! trem python.py
+```
+
+O script `train.py` carrega as imagens e máscaras, treina a rede e gera métricas
+como Loss, Dice, Precisão, Sensibilidade e Especificidade, além de salvar o overlay
+de Grad-CAM em `gradcam_example.png`.
