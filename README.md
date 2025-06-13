@@ -4,8 +4,6 @@
 
 ---
 
-# Neuroflux
-
 ## Overview
 
 **Neuroflux** is an artificial neural network architecture designed to learn stably and adaptively, even in scenarios with weight oscillations and frequent changes in internal representations. The inspiration comes from electronic voltage regulator circuits, games with block loading like Minecraft, and self-stabilizing principles.
@@ -149,7 +147,7 @@ llm.train(épocas=100)
 print(llm.generate("cre", comprimento=30))
 ```
 
-### Demonstração de raciocínio
+### Demonstração de raciocínio simbólico
 
 O tecido neural pode operar puramente em caracteres e gerar raciocínio
 sem um conjunto de dados externo. Um bloco especial *logo* explica suas ações.
@@ -162,10 +160,66 @@ print(llm.generate("ab?", comprimento=1))
 imprimir(llm.logos())
 ```
 
+### Demonstração de Ensino Semântico
+
+O Neuroflux pode aprender conceitos por meio de pares de perguntas e respostas explícitas. Um pequeno
+O conjunto de dados `semantics.jsonl` demonstra como alimentar significados durante a coleta
+Explicações de `logos()`.
+
+```python
+importar json
+de neuroflux_ llm importar NeurofluxLLM
+
+com open('data/semantics.jsonl') como f:
+    pares = [json.loads(l) para l em f]
+
+text = " ".join(p['entrada'] + ' ' + p['explicacao'] para p em pares)
+llm = NeurofluxLLM(texto, contexto=3, use _tecido=Verdadeiro, token_ nível='palavra')
+llm.teach _semantics(pares, épocas=20)
+print(llm.generate('O que', length=10))
+imprimir(llm.logos())
+```
+
+### Ciclo de Ensino Supervisionado
+
+`supervision.py` integra a API OpenAI para correção online. O LLM
+gera uma resposta, o GPT‑3.5 Turbo a refina e o par corrigido é alimentado
+de volta usando `teach_ semantics()`.
+
+```python
+de neuroflux_llm importar NeurofluxLLM
+da supervisão importar passo_supervisionado
+
+question = "O que é mover?"
+llm = NeurofluxLLM(pergunta, contexto=3, nível_de_token='palavra')
+raw = llm.generate(pergunta, comprimento=6)
+corrigido = passo_supervisionado(pergunta, bruto)
+llm.teach_semantics([{"entrada": pergunta, "explicação": corrigido}])
+```
+
+### Memória de streaming
+
+`flex_context=True` habilita um buffer de atenção expansível. O modelo mantém um
+histórico de todos os tokens que viu, permitindo que o contexto se estenda além do
+tamanho inicial. O novo texto pode ser inserido de forma incremental e o histórico completo influencia
+geração.
+
+```python
+de neuroflux_llm importar NeurofluxLLM
+
+texto = "a curiosidade impulsiona a evolução"
+llm = NeurofluxLLM(texto, contexto=3, use_tissue=True,
+                   token_level='palavra', flex_context=True)
+llm.train(épocas=30)
+llm.feed("a evolução alimenta a curiosidade")
+print(llm.generate("curiosidade", comprimento=6))
+```
+
 ### Licença
 
 Licença MIT
 
 ### Autor
 
-Desenvolvido por **Vyctor**, 2025.
+Desenvolvido por **Vyctor** , 2025.
+
