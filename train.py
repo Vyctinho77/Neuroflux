@@ -13,10 +13,25 @@ def load_dataset(image_dir, mask_dir, split=(0.7, 0.2, 0.1)):
     masks = sorted([os.path.join(mask_dir, f) for f in os.listdir(mask_dir)])
     dataset = SegmentationDataset(images, masks, transform=transforms.ToTensor())
     n_total = len(dataset)
-    n_train = int(split[0] * n_total)
-    n_val = int(split[1] * n_total)
-    n_test = n_total - n_train - n_val
-    return random_split(dataset, [n_train, n_val, n_test])
+
+    # Se tiver menos de 5, tudo para treino, val/teste vazios
+    if n_total < 5:
+        # Retorna listas para compatibilidade com random_split
+        return [dataset, [], []]
+    else:
+        n_train = int(split[0] * n_total)
+        n_val = int(split[1] * n_total)
+        n_test = n_total - n_train - n_val
+        splits = [n_train, n_val, n_test]
+        # Corrige para nunca dar zero em nenhum split
+        for i in range(3):
+            if splits[i] == 0:
+                splits[i] = 1
+        while sum(splits) > n_total:
+            for i in range(3):
+                if splits[i] > 1 and sum(splits) > n_total:
+                    splits[i] -= 1
+        return random_split(dataset, splits)
 
 def train(model, loader, optimizer, device):
     model.train()
@@ -29,7 +44,7 @@ def train(model, loader, optimizer, device):
         loss.backward()
         optimizer.step()
         epoch_loss += loss.item()
-    return epoch_loss / len(loader)
+    return epoch_loss / len(loader) if len(loader) > 0 else 0
 
 def evaluate(model, loader, device):
     model.eval()
@@ -44,6 +59,8 @@ def evaluate(model, loader, device):
             m['loss'] = loss.item()
             metrics.append(m)
             loss_total += loss.item()
+    if len(metrics) == 0:
+        return {}
     avg = {k: sum(d[k] for d in metrics) / len(metrics) for k in metrics[0]}
     avg['loss'] = loss_total / len(metrics)
     return avg
@@ -79,25 +96,37 @@ if __name__ == '__main__':
     mask_dir = os.environ.get('MASK_DIR', 'masks')
 
     train_ds, val_ds, test_ds = load_dataset(img_dir, mask_dir)
-    train_loader = DataLoader(train_ds, batch_size=4, shuffle=True)
-    val_loader = DataLoader(val_ds, batch_size=4)
-    test_loader = DataLoader(test_ds, batch_size=4)
+    
+    # Garante que loaders não quebrem se algum split for vazio
+    train_loader = DataLoader(train_ds, batch_size=4, shuffle=True) if len(train_ds) > 0 else None
+    val_loader = DataLoader(val_ds, batch_size=4) if len(val_ds) > 0 else None
+    test_loader = DataLoader(test_ds, batch_size=4) if len(test_ds) > 0 else None
 
     model = UNet(in_ch=3).to(device)
     optimizer = optim.Adam(model.parameters(), lr=1e-3)
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', patience=3)
 
     for epoch in range(5):
-        loss = train(model, train_loader, optimizer, device)
-        val_metrics = evaluate(model, val_loader, device)
-        scheduler.step(val_metrics['loss'])
-        print(f"Ep{epoch+1} Loss:{loss:.4f} Val Dice:{val_metrics['dice']:.4f}")
+        if train_loader is not None:
+            loss = train(model, train_loader, optimizer, device)
+        else:
+            loss = 0
+        if val_loader is not None:
+            val_metrics = evaluate(model, val_loader, device)
+            dice = val_metrics.get('dice', 0)
+            scheduler.step(val_metrics['loss'] if 'loss' in val_metrics else loss)
+        else:
+            dice = 0
+        print(f"Ep{epoch+1} Loss:{loss:.4f} Val Dice:{dice:.4f}")
 
-    test_metrics = evaluate(model, test_loader, device)
-    print('Metrics Teste:', test_metrics)
+    if test_loader is not None and len(test_ds) > 0:
+        test_metrics = evaluate(model, test_loader, device)
+        print('Metrics Teste:', test_metrics)
+        # Gerar Grad-CAM para primeira imagem de teste
+        img, mask = test_ds[0]
+        plot_gradcam(model, img.to(device), mask.to(device), 'gradcam_example.png')
+        print('Grad-CAM salvo em gradcam_example.png')
+    else:
+        print('Sem dados de teste para métricas ou Grad-CAM.')
 
-    # Gerar Grad-CAM para primeira imagem de teste
-    img, mask = test_ds[0]
-    plot_gradcam(model, img.to(device), mask.to(device), 'gradcam_example.png')
-    print('Grad-CAM salvo em gradcam_example.png')
 
