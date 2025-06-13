@@ -4,121 +4,97 @@
 
 ---
 
-## Visão Geral
+# Neuroflux
 
-**Neuroflux** é uma arquitetura de rede neural artificial projetada para aprender de forma estável e adaptativa mesmo em cenários onde há oscilações nos pesos e mudanças frequentes nas representações internas. A inspiração vem de circuitos eletrônicos de reguladores de tensão, jogos com carregamento de blocos como Minecraft e princípios de autoestabilização.
+## Overview
 
-Ao contrário das redes convencionais que atualizam todos os pesos com uma única regra, Neuroflux observa seu próprio estado de instabilidade e ajusta dinamicamente a forma como aprende, mantendo áreas saudáveis da rede enquanto suaviza zonas turbulentas.
+**Neuroflux** is an artificial neural network architecture designed to learn stably and adaptively, even in scenarios with weight oscillations and frequent changes in internal representations. The inspiration comes from electronic voltage regulator circuits, games with block loading like Minecraft, and self-stabilizing principles.
 
----
+Unlike conventional networks that update all weights with a single rule, Neuroflux monitors its own instability and dynamically adjusts how it learns, maintaining healthy areas of the network while smoothing out turbulent zones.
 
-## Motivação
+### Motivation
 
-Redes neurais tradicionais podem facilmente se perder em regiões instáveis do espaço de pesos — especialmente em tarefas de lógica, transformação de estado ou manipulação de regras. Neuroflux surge como uma proposta para mitigar isso com:
+Traditional neural networks can easily get lost in unstable regions of weight space—especially in logic tasks, state transformation, or rule manipulation. Neuroflux was created to mitigate this, offering:
 
-- Regulação de pesos inspirada em harmonia elétrica;
-- Evolução contínua dos neurônios ao longo da rede;
-- Memória que se adapta com o aprendizado, preservando o que realmente foi compreendido;
-- Ajustes dinâmicos de aprendizado baseados na instabilidade interna da rede.
+- Weight regulation inspired by electrical harmony  
+- Continuous evolution of neurons throughout the network  
+- Memory that adapts with learning, preserving what is truly understood  
+- Dynamic learning adjustments based on the network's internal instability  
 
----
-
-## Arquitetura Geral
+### General Architecture
 
 ```
-Entrada  →  Camada Oculta (com evolução adaptativa)
-            ↓
-          Regulador de pesos harmônico
-            ↓
-      Ajuste da taxa de aprendizado por instabilidade
-            ↓
-        Saída com função de ativação contínua
+Input  →  Hidden Layer (with adaptive evolution)
+             ↓
+      Harmonic weight regulator
+             ↓
+   Learning rate adjustment by instability
+             ↓
+    Output with continuous activation function
 ```
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/fa40220a-5098-47ee-ba4d-e6ede18547be" width="700"/>
 </div>
 
----
+### Key Equations
 
-## Equações-Chave
-
-### 1. **Regulação Harmônica de Pesos**
-Combinação de dois domínios:
-- Linear (direção direta de erro)
-- Não-linear (curvas suavizantes)
-
+1. **Harmonic Weight Regulation**
 ```python
 harmonico = np.tanh(deltas) + relu(deltas) * 0.5
 ```
 
----
-
-### 2. **Instabilidade por Oscilação**
-Mede a diferença de variação entre épocas:
-
+2. **Oscillation Instability**
 ```
 I(t) = (1/n) * Σ |Δw_i(t) - Δw_i(t-1)|
 ```
 
-### 3. **Taxa de Aprendizado Responsiva**
-Ajuste contínuo com base na instabilidade:
-
+3. **Responsive Learning Rate**
 ```
 η(t) = η_base * exp(-α * I(t))
 ```
 
----
+### Neural Evolution Module
 
-## Módulo de Evolução Neural
-
-A Neuroflux não precisa de aumento no número de neurônios ao longo do tempo. Em vez disso, ela:
-- Avalia o desempenho médio dos neurônios;
-- Substitui os menos ativos por novos candidatos (com pesos randômicos);
-- Mantém a arquitetura enxuta, mas inteligente.
+Neuroflux does not require an increase in the number of neurons over time. Instead, it:
+- Evaluates the average performance of neurons  
+- Replaces the least active with new candidates (random weights)  
+- Keeps the architecture lean but smart  
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/4cc5c789-ea5b-44fb-bcb2-8552d93c9e9e" width="700"/>
 </div>
 
----
+### Short-Term Memory with Chunk Loading
 
-## Memória de Curto Prazo com Chunk Loading
-
-Inspirado no conceito de "chunk loading" em jogos, o sistema de memória da Neuroflux:
-- Carrega pedaços da experiência (chunks) a cada época;
-- Atualiza sua percepção local de aprendizado;
-- Garante que a rede não dependa de um grande conjunto de dados carregado inteiro na memória.
+Inspired by the "chunk loading" concept from games, Neuroflux's memory system:
+- Loads pieces of experience (chunks) each epoch  
+- Updates its local perception of learning  
+- Ensures the network does not depend on a large dataset fully loaded into memory  
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/e3327124-c7d0-46ba-a94c-8844fca788c0" width="700"/>
 </div>
 
----
+### Applications and Tested Cases
 
-## Aplicações e Casos Testados
+- **Logic learning** (XOR, AND)  
+- **Action planning** (Tower of Hanoi)  
+- **3D transformations** (Pocket Cube / mini Rubik’s Cube)  
 
-- **Aprendizado de lógica** (XOR, AND)
-- **Planejamento de ações** (Torre de Hanói)
-- **Transformações 3D** (Pocket Cube / mini cubo mágico)
+Each case showed that the network can maintain stability, growing accuracy, and flexibility when dealing with oscillating or unpredictable data.
 
-Cada caso mostrou que a rede consegue manter estabilidade, precisão crescente e flexibilidade diante de dados oscilantes ou imprevisíveis.
-
----
-
-## Instalação
+### Installation
 
 ```bash
-git clone https://github.com/seu-usuario/Neuroflux.git
+git clone https://github.com/your-username/Neuroflux.git
 cd Neuroflux
-exemplos python/xor_test.py
-# Treinamento de segmentação (U-Net)
-trem python.py
+python examples/xor_test.py
+# Segmentation training (U-Net)
+python train.py
 ```
 
----
-
-## Diretório
+### Directory Structure
 
 ```
 Neurofluxo/
@@ -129,41 +105,35 @@ Neurofluxo/
 ├── memoria_chunk.py
 ├── utils.py
 ├── modelo.py
-├── trem.py
+├── train.py
 ├── exemplos/
-│ ├── xor_test.py
-│ ├── hanoi_test.py
-│ └── pocket_cube_test.py
-└── LEIA-ME.md
+│   ├── xor_test.py
+│   ├── hanoi_test.py
+│   └── pocket_cube_test.py
+└── README.md
 ```
 
----
+> If you have any questions, suggestions, or are interested in collaborating, feel free to open an issue or send a message!
 
-> Em caso de dúvidas, sugestões ou interesse em colaboração, fique à vontade para abrir uma issue ou enviar uma mensagem!
+### Glioblastoma Segmentation with U-Net
 
----
-
-## Segmentação de Glioblastoma com U-Net
-
-Este repositório inclui uma U-Net multimodal com Grad-CAM para segmentação de GBM.
-Para treinar no Google Colab com GPU basta executar:
+This repository includes a multimodal U-Net with Grad-CAM for GBM segmentation.
+To train on Google Colab with GPU, simply run:
 
 ```python
-!git clone https://github.com/seu-usuario/Neuroflux.git
+!git clone https://github.com/your-username/Neuroflux.git
 %cd Neurofluxo
-! trem python.py
+!python train.py
 ```
 
-O script `train.py` carrega as imagens e máscaras, treina a rede e gera métricas
-como Loss, Dice, Precisão, Sensibilidade e Especificidade, além de salvar o overlay
-de Grad-CAM em `gradcam_example.png`.
+The `train.py` script loads images and masks, trains the network, and generates metrics such as Loss, Dice, Precision, Sensitivity, and Specificity. It also saves the Grad-CAM overlay in `gradcam_example.png`.
 
----
+### License
 
-## Licença
 MIT License
 
----
+### Author
 
-## Autor
-Desenvolvido por **Vyctor**, 2025.
+Developed by **Vyctor**, 2025.
+
+
