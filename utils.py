@@ -4,29 +4,41 @@ def binary_cross_entropy(pred, target):
     pred = np.clip(pred, 1e-7, 1 - 1e-7)
     return -np.mean(target * np.log(pred) + (1 - target) * np.log(1 - pred))
 
-import torch
-import torch.nn.functional as F
-from torch.utils.data import Dataset, DataLoader
-from torchvision import transforms
-from PIL import Image
-import numpy as np
+def cross_entropy(pred, target):
+    """Cross-entropy for one-hot targets."""
+    pred = np.clip(pred, 1e-7, 1 - 1e-7)
+    return -np.mean(np.sum(target * np.log(pred), axis=1))
 
-class SegmentationDataset(Dataset):
-    """Dataset genérico para imagens e máscaras."""
-    def __init__(self, img_paths, mask_paths, transform=None):
-        self.img_paths = img_paths
-        self.mask_paths = mask_paths
-        self.transform = transform or transforms.ToTensor()
+try:
+    import torch
+    import torch.nn.functional as F
+    from torch.utils.data import Dataset, DataLoader
+    from torchvision import transforms
+    from PIL import Image
+except Exception as e:  # pragma: no cover - optional deps
+    torch = None
 
-    def __len__(self):
-        return len(self.img_paths)
+if torch is not None:
+    class SegmentationDataset(Dataset):
+        """Generic dataset for images and masks."""
+        def __init__(self, img_paths, mask_paths, transform=None):
+            self.img_paths = img_paths
+            self.mask_paths = mask_paths
+            self.transform = transform or transforms.ToTensor()
 
-    def __getitem__(self, idx):
-        img = Image.open(self.img_paths[idx]).convert('RGB')
-        mask = Image.open(self.mask_paths[idx]).convert('L')
-        img = self.transform(img)
-        mask = self.transform(mask)
-        return img, mask
+        def __len__(self):
+            return len(self.img_paths)
+
+        def __getitem__(self, idx):
+            img = Image.open(self.img_paths[idx]).convert('RGB')
+            mask = Image.open(self.mask_paths[idx]).convert('L')
+            img = self.transform(img)
+            mask = self.transform(mask)
+            return img, mask
+else:  # pragma: no cover - minimal fallback
+    class SegmentationDataset:
+        def __init__(self, *args, **kwargs):
+            raise ImportError("Torch is required for SegmentationDataset")
 
 def dice_coef(pred, target, eps=1e-7):
     pred = pred.contiguous()
@@ -59,3 +71,4 @@ def compute_metrics(pred, mask):
         'specificity': specificity.item(),
         'dice': dice.item()
     }
+
