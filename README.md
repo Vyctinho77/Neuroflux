@@ -111,7 +111,9 @@ Cada caso mostrou que a rede consegue manter estabilidade, precisão crescente e
 ```bash
 git clone https://github.com/seu-usuario/Neuroflux.git
 cd Neuroflux
-python exemplos/xor_test.py
+exemplos python/xor_test.py
+# Treinamento de segmentação (U-Net)
+trem python.py
 ```
 
 ---
@@ -119,18 +121,20 @@ python exemplos/xor_test.py
 ## Diretório
 
 ```
-Neuroflux/
+Neurofluxo/
 ├── neuroflux_core.py
 ├── neuroflux_adaptativa.py
 ├── regulador_harmonico.py
 ├── regulador_instabilidade.py
 ├── memoria_chunk.py
 ├── utils.py
+├── modelo.py
+├── trem.py
 ├── exemplos/
-│   ├── xor_test.py
-│   ├── hanoi_test.py
-│   └── pocket_cube_test.py
-└── README.md
+│ ├── xor_test.py
+│ ├── hanoi_test.py
+│ └── pocket_cube_test.py
+└── LEIA-ME.md
 ```
 
 ---
