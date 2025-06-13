@@ -149,6 +149,19 @@ llm.train(épocas=100)
 print(llm.generate("cre", comprimento=30))
 ```
 
+### Demonstração de raciocínio simbólico
+
+O tecido neural pode operar puramente em caracteres e gerar raciocínio
+sem um conjunto de dados externo. Um bloco especial *logo* explica suas ações.
+
+``` python
+alfabeto = "abcdefghijklmnopqrstuvwxyz"
+llm = NeurofluxLLM(alfabeto, contexto=2, use _tecido=Verdadeiro)
+llm.train(épocas=50)
+print(llm.generate("ab?", comprimento=1))
+imprimir(llm.logos())
+```
+
 ### Licença
 
 Licença MIT
