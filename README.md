@@ -135,16 +135,6 @@ Neuroflux/
 
 ---
 
-## Licença
-MIT License
-
----
-
-## Autor
-Projeto criado por **Vyctor**, 2025.
-
----
-
 > Em caso de dúvidas, sugestões ou interesse em colaboração, fique à vontade para abrir uma issue ou enviar uma mensagem!
 
 ---
@@ -163,3 +153,13 @@ Para treinar no Google Colab com GPU basta executar:
 O script `train.py` carrega as imagens e máscaras, treina a rede e gera métricas
 como Loss, Dice, Precisão, Sensibilidade e Especificidade, além de salvar o overlay
 de Grad-CAM em `gradcam_example.png`.
+
+---
+
+## Licença
+MIT License
+
+---
+
+## Autor
+Desenvolvido por **Vyctor**, 2025.
