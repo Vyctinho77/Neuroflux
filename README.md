@@ -129,7 +129,7 @@ To train on Google Colab with GPU, simply run:
 
 ### Neuroflux LLM
 
-O projeto agora inclui um modelo de linguagem leve, construído inteiramente com o núcleo Neuroflux. Ele utiliza tokenização em nível de caractere e memória baseada em blocos, capaz de ingerir novos fluxos de texto.
+O projeto agora inclui um modelo de linguagem leve, construído inteiramente com o núcleo Neuroflux. Ele utiliza tokenização em nível de caractere e memória baseada em blocos, capaz de ingerir novos fluxos de texto. Um modo opcional de *tecido neural* permite que múltiplos blocos adaptativos evoluam em paralelo, apoiando a criatividade contínua.
 
 ``` python
 de neuroflux _llm importar NeurofluxLLM
@@ -141,10 +141,9 @@ llm.feed("IA adaptativa em tempo real")
 print(llm.generate("inferno", comprimento=40))
 ```
 
-### Licença
+Para permitir a evolução dos tecidos neurais:
 
-Licença MIT
-
-### Autor
-
-Desenvolvido por **Vyctor** , 2025.
+```python
+llm = NeurofluxLLM(texto, contexto=3, use_tecido =Verdadeiro)
+llm.train(épocas=100)
+print(llm.generate("cre", comprimento=30))
