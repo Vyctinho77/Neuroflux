@@ -149,7 +149,7 @@ llm.train(épocas=100)
 print(llm.generate("cre", comprimento=30))
 ```
 
-### Demonstração de raciocínio simbólico
+### Demonstração de raciocínio
 
 O tecido neural pode operar puramente em caracteres e gerar raciocínio
 sem um conjunto de dados externo. Um bloco especial *logo* explica suas ações.
