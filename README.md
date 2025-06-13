@@ -87,7 +87,7 @@ Each case showed that the network can maintain stability, growing accuracy, and 
 ### Installation
 
 ```bash
-git clone https://github.com/your-username/Neuroflux.git
+git clone https://github.com/vyctinho77/Neuroflux.git
 cd Neuroflux
 python examples/xor_test.py
 # Segmentation training (U-Net)
