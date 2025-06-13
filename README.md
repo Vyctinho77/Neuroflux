@@ -125,15 +125,26 @@ To train on Google Colab with GPU, simply run:
 %cd Neuroflux
 !python train.py
 ```
+---
 
-The `train.py` script loads images and masks, trains the network, and generates metrics such as Loss, Dice, Precision, Sensitivity, and Specificity. It also saves the Grad-CAM overlay in `gradcam_example.png`.
+### Neuroflux LLM
 
-### License
+O projeto agora inclui um modelo de linguagem leve, construído inteiramente com o núcleo Neuroflux. Ele utiliza tokenização em nível de caractere e memória baseada em blocos, capaz de ingerir novos fluxos de texto.
 
-MIT License
+``` python
+de neuroflux _llm importar NeurofluxLLM
 
-### Author
+texto = "olá mundo neuroflux" * 5
+llm = NeurofluxLLM(texto, contexto=4)
+llm.train(épocas=200)
+llm.feed("IA adaptativa em tempo real")
+print(llm.generate("inferno", comprimento=40))
+```
 
-Developed by **Vyctor**, 2025.
+### Licença
 
+Licença MIT
 
+### Autor
+
+Desenvolvido por **Vyctor** , 2025.
