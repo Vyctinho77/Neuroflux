@@ -1,6 +1,6 @@
-# Neuroflux
-
-> Uma arquitetura neural contínua com regulação de pesos responsiva, memória viva e atualização evolutiva de neurônios.
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/cd7a44d3-29f9-4399-878f-2b88478fe038" width="700"/>
+</div>
 
 ---
 
