@@ -134,16 +134,25 @@ O projeto agora inclui um modelo de linguagem leve, construído inteiramente com
 ``` python
 de neuroflux _llm importar NeurofluxLLM
 
-texto = "olá mundo neuroflux" * 5
-llm = NeurofluxLLM(texto, contexto=4)
+texto = "a mente aprende. o neurofluxo se adapta em tempo real." * 3
+llm = NeurofluxLLM(texto, contexto=4, token_level ='palavra')
 llm.train(épocas=200)
 llm.feed("IA adaptativa em tempo real")
-print(llm.generate("inferno", comprimento=40))
+print(llm.generate("o", comprimento=20))
 ```
 
 Para permitir a evolução dos tecidos neurais:
 
-```python
-llm = NeurofluxLLM(texto, contexto=3, use_tecido =Verdadeiro)
+``` python
+llm = NeurofluxLLM(texto, contexto=3, use _tecido=Verdadeiro, token_ nível='palavra')
 llm.train(épocas=100)
 print(llm.generate("cre", comprimento=30))
+```
+
+### Licença
+
+Licença MIT
+
+### Autor
+
+Desenvolvido por **Vyctor**, 2025.
