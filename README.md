@@ -122,7 +122,7 @@ To train on Google Colab with GPU, simply run:
 
 ```python
 !git clone https://github.com/Vyctinho77/Neuroflux.git
-%cd Neurofluxo
+%cd Neuroflux
 !python train.py
 ```
 
